@@ -1,0 +1,68 @@
+CREATE TABLE clientes (
+id int PRIMARY KEY AUTO_INCREMENT,
+nome varchar(100) NOT NULL,
+cpf_cnpj varchar(18) NOT NULL,
+rua varchar(255),
+numero varchar(50),
+bairro varchar(100),
+cep varchar(10),
+referencia varchar(255),
+telefone varchar(100) NOT NULL
+);
+
+CREATE TABLE protudos (
+id int PRIMARY KEY AUTO_INCREMENT,
+cod_baras varchar(100),
+nome varchar(255) NOT NULL,
+descricao longtext,
+estoque float NOT NULL,
+valor float NOT NULL,
+data_fabricacao datetime,
+data_validade datetime
+);
+CREATE TABLE pedidos (
+id int PRIMARY KEY AUTO_INCREMENT,
+id_cliente int,
+id_produto int,
+num_ped varchar(255),
+quantidade float NOT NULL,
+data_ped datetime
+);
+CREATE TABLE fornecedores (
+id int PRIMARY KEY AUTO_INCREMENT,
+nome varchar(255) NOT NULL,
+cpf_cnpj varchar(18) NOT NULL,
+rua varchar(255),
+numero varchar(50),
+bairro varchar(100),
+cep varchar(10),
+telefone varchar(100) NOT NULL
+);
+CREATE TABLE compras (
+id int PRIMARY KEY AUTO_INCREMENT,
+id_fornecedor int,
+id_produto int,
+quantidade float NOT NULL,
+codigo varchar(100),
+data_compra datetime
+);
+
+ALTER TABLE compras
+ADD KEY id_fornecedor (id_fornecedor),
+ADD KEY id_produto (id_produto);
+
+ALTER TABLE pedidos
+ADD KEY id_cliente (id_cliente),
+ADD KEY id_produto (id_produto);
+
+ALTER TABLE compras
+ADD CONSTRAINT compras_ibfk_1 FOREIGN KEY
+(id_fornecedor) REFERENCES fornecedores (id),
+ADD CONSTRAINT compras_ibfk_2 FOREIGN KEY
+(id_produto) REFERENCES produtos (id);
+
+ALTER TABLE pedidos
+ADD CONSTRAINT pedidos_ibfk_1 FOREIGN KEY
+(id_cliente) REFERENCES clientes (id),
+ADD CONSTRAINT pedidos_ibfk_2 FOREIGN KEY
+(id_produto) REFERENCES produto (id);
